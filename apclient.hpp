@@ -1028,6 +1028,16 @@ public:
         return true;
     }
 
+    const Version& get_server_version() const
+    {
+        return _serverVersion;
+    }
+
+    const Version& get_generator_version() const
+    {
+        return _generatorVersion;
+    }
+
     State get_state() const
     {
         return _state;
@@ -1214,6 +1224,7 @@ private:
                     _localConnectTime = std::chrono::steady_clock::now();
                     _serverConnectTime = command["time"].get<double>();
                     _serverVersion = Version::from_json(command["version"]);
+                    _generatorVersion = Version::from_json(command["generator_version"]);
                     _seed = command["seed_name"];
                     _hintCostPercent = command.value("hint_cost", 0);
                     _hasPassword = command.value("password", false);
@@ -1641,6 +1652,7 @@ private:
     double _serverConnectTime = 0;
     std::chrono::steady_clock::time_point _localConnectTime;
     Version _serverVersion = {0,0,0};
+    Version _generatorVersion = {0,0,0};
     int _locationCount = 0;
     int _hintCostPercent = 0;
     int _hintPoints = 0;
